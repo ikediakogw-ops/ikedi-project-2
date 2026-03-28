@@ -2,19 +2,27 @@ from flask import Flask, jsonify
 from database import get_users
 import config
 
-app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return jsonify({
-        "message": "Internal Utility Service Running",
-        "environment": config.ENVIRONMENT,
-        "db_host": config.DB_HOST  #leaking config info
-    })
+def create_app():
+    app = Flask(__name__)
 
-@app.route("/users")
-def users():
-    return jsonify(get_users())
+    @app.route("/")
+    def home():
+        return jsonify({
+            "message": "Internal Utility Service Running",
+            "environment": config.ENVIRONMENT,
+            "db_host": config.DB_HOST  # still showing as you requested
+        })
+
+    @app.route("/users")
+    def users():
+        return jsonify(get_users())
+
+    return app
+
+
+app = create_app()
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)  #debug mode ON
+    app.run(host="0.0.0.0", port=5000, debug=True)
