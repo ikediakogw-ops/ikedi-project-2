@@ -1,4 +1,4 @@
-#Hardcoded secrets
+# Hardcoded secrets
 DB_HOST = "localhost"
 DB_USER = "admin"
 DB_PASSWORD = "SuperSecretPassword123"
