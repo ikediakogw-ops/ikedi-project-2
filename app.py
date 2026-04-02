@@ -2,7 +2,6 @@ from flask import Flask, jsonify
 from database import get_users
 import config
 
-
 def create_app():
     app = Flask(__name__)
 
@@ -11,18 +10,20 @@ def create_app():
         return jsonify({
             "message": "Internal Utility Service Running",
             "environment": config.ENVIRONMENT,
-            "db_host": config.DB_HOST  # still showing as you requested
+            "db_host": config.DB_HOST
         })
 
     @app.route("/users")
     def users():
         return jsonify(get_users())
 
+    @app.route("/health")
+    def health():
+        return jsonify({"status": "ok"})
+
     return app
 
-
 app = create_app()
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
